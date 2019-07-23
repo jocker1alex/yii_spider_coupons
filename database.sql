@@ -13,7 +13,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `coupons`
+-- Structure of table `coupons`
 --
 
 CREATE TABLE `coupons` (
@@ -30,7 +30,7 @@ CREATE TABLE `coupons` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `markets`
+-- Structure of table `markets`
 --
 
 CREATE TABLE `markets` (
@@ -42,38 +42,33 @@ CREATE TABLE `markets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Индексы сохранённых таблиц
---
-
---
--- Индексы таблицы `coupons`
+-- Indexes of the table `coupons`
 --
 ALTER TABLE `coupons`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_market` (`id_market`);
 
 --
--- Индексы таблицы `markets`
+-- Indexes of the table `markets`
 --
 ALTER TABLE `markets`
   ADD PRIMARY KEY (`id`);
 
 
 --
--- AUTO_INCREMENT для таблицы `coupons`
+-- AUTO_INCREMENT for the table `coupons`
 --
 ALTER TABLE `coupons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT для таблицы `markets`
+-- AUTO_INCREMENT for the table `markets`
 --
 ALTER TABLE `markets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-
 --
--- Ограничения внешнего ключа таблицы `coupons`
+-- Foreign key constraint of the table `coupons`
 --
 ALTER TABLE `coupons`
   ADD CONSTRAINT `FK_spider_coupons_spider_markets` FOREIGN KEY (`id_market`) REFERENCES `markets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

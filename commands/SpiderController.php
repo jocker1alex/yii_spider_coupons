@@ -26,7 +26,6 @@ class SpiderController extends Controller
      */
     public function actionGetMarkets()
     {   
-        // mark markets as non-existing
         Market::updateAll(['exist' => 0], self::EXIST);
        
         $url = self::HOST . self::URI;
@@ -37,7 +36,6 @@ class SpiderController extends Controller
             $this->addMarket($element);
         }
 
-        // remove from database non-existing markets on the site
         Market::deleteAll(self::NOT_EXIST);
     }
 
@@ -47,10 +45,9 @@ class SpiderController extends Controller
      */
     protected function addMarket($element)
     {
-        //check the presence of market in the database
+        // check the presence of market in the database
         $market = Market::findOne(['title' => $element->getAttribute('title')]);
 
-        // add market to database
         if($market === null)
         {
             $market = new Market();
@@ -59,7 +56,6 @@ class SpiderController extends Controller
             $market->title = $element->getAttribute('title');
         }
 
-        // mark market as existing
         $market->exist = 1;
 
         $market->save();
@@ -72,20 +68,13 @@ class SpiderController extends Controller
     {   
         $this->actionGetMarkets();
 
-        // get all non-scanning markets
         $markets = Market::findAll(['scan' => 0]);
-
         foreach ($markets as $market) 
         {
-            // mark coupons from $market as non-existing
-            Coupon::updateAll(['exist' => 0], 'exist = 1 AND id_market = ' . $market->id);
+            Coupon::updateAll(['exist' => 0], 'id_market = ' . $market->id);
             
-            // get DOM from website
             $document = new Document($market->url, true);
-
-            // find javascript code containing coupons
             $textJsData = $this->findSelectorText($document, self::COUPON_SELECTOR);
-
             if(!is_null($textJsData))
             {
                 $elements = $this->getJsonData($textJsData);
@@ -95,16 +84,13 @@ class SpiderController extends Controller
                 }
             }
 
-            // mark market as scaned
             $market->scan = 1;
 
             $market->save();
         }
 
-        // remove from database non-existing coupons on the site
         Coupon::deleteAll(self::NOT_EXIST);
 
-        // end: mark all markets as not scaned
         Market::updateAll(['scan' => 0]);
     }
 
@@ -112,15 +98,17 @@ class SpiderController extends Controller
      * This command - find HTML tag by selector and get text.
      * @param object $element element of HTML.
      * @param string $selector HTML selector.
+     * @return null|string
      */
     protected function findSelectorText($element, $selector)
     {
-        return empty($element->find($selector)) ? NULL : $element->find($selector)[0]->text();
+        return empty($element->find($selector)) ? null : $element->find($selector)[0]->text();
     }
 
     /**
-     * This command - javascript code => json data  => object.
+     * This command - javascript code => json data  => array.
      * @param string $textJsData - javascript code.
+     * @return array from json data.
      */
     protected function getJsonData($textJsData)
     {
@@ -130,6 +118,12 @@ class SpiderController extends Controller
         return json_decode($jsonData, true);
     }
 
+    /**
+     * This command - get json element.
+     * @param array $element array of json data.
+     * @param string $key key of array
+     * @return string value of array by key
+     */
     protected function getJsonElement($element, $key)
     {
         return array_key_exists($key, $element) ? $element[$key] : '';
@@ -158,7 +152,6 @@ class SpiderController extends Controller
             'description' => $description,
         ]);
 
-        // add coupon to database
         if($coupon === null)
         {
             $coupon = new Coupon();
@@ -170,7 +163,6 @@ class SpiderController extends Controller
             $coupon->description = $description;
         }
        
-        // mark coupon as existing
         $coupon->exist = 1;
         
         $coupon->save();

@@ -1,9 +1,12 @@
 <h1>Spider coupons of markets</h1>
-Project "Spider coupons of market" created by <a href="https://github.com/yiisoft" target="_blank">"Yii 2 Basic Project Template"</a>
-
+<p>
+    Project "Spider coupons of market" created by <a href="https://github.com/yiisoft" target="_blank">"Yii 2 Basic Project Template"</a>
+</p>
+<p>
 Additional libraries:
-<a href="https://github.com/Imangazaliev/DiDOM" target="_blank">DiDOM - simple and fast HTML parser</a>
-<a href="https://github.com/newerton/yii2-fancybox" target="_blank">yii2-fancybox</a>
+    - <a href="https://github.com/Imangazaliev/DiDOM" target="_blank">DiDOM - simple and fast HTML parser</a>
+    - <a href="https://github.com/newerton/yii2-fancybox" target="_blank">yii2-fancybox</a>
+</p>
 
 REQUIREMENTS
 ------------
