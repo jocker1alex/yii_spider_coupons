@@ -39,7 +39,17 @@ return [
     'password' => '1234',
     'charset' => 'utf8',
 ];
+
 ```
+For create tables `markets` and `coupons` you can:
+
+- upload dump database.sql to database
+
+or
+
+- run migrate for create tables `markets` and `coupons`
+
+(file migration: migrations/m190723_111254_create_markets_and_coupons_tables.php)
 
 ### Cookie
 
