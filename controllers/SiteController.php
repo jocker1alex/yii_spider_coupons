@@ -15,40 +15,32 @@ use yii\base\Model;
 
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'index', 'login', 'markets', 'coupons'],
+                'only'  => ['logout', 'index', 'login', 'markets', 'coupons'],
                 'rules' => [
                     [
                         'actions' => ['logout', 'index', 'markets', 'coupons'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
                     ],
                     [
                         'actions' => ['login', 'index'],
-                        'allow' => true,
-                        'roles' => ['?'],
+                        'allow'   => true,
+                        'roles'   => ['?'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
+                'class'   => VerbFilter::className(),
+                'actions' => ['logout' => ['post']],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
@@ -56,7 +48,7 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -117,13 +109,11 @@ class SiteController extends Controller
         $markets = Market::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $markets,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+            'query'      => $markets,
+            'pagination' => ['pageSize' => 10],
         ]);
 
-        return $this->render('Markets', [ 
+        return $this->render('markets', [ 
             'dataProvider' => $dataProvider,
         ]);
 
@@ -142,20 +132,17 @@ class SiteController extends Controller
         if(!is_null($market))
         {
             $coupons = $coupons->where('id_market = :id', [':id' => $market]);
-
             $titleMarket = Market::findOne(['id' => $market])->title;
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $coupons,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+            'query'      => $coupons,
+            'pagination' => ['pageSize' => 10],
         ]);
        
-        return $this->render('Coupons', [ 
+        return $this->render('coupons', [ 
+            'titleMarket'  => $titleMarket,
             'dataProvider' => $dataProvider,
-            'titleMarket' => $titleMarket,
         ]);
 
     }

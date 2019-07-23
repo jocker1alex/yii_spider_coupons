@@ -4,10 +4,11 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic',
-    'basePath' => dirname(__DIR__),
+    'id'        => 'basic',
+    'name'      => 'Spider coupons of market',
+    'basePath'  => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'aliases' => [
+    'aliases'   => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
@@ -42,7 +43,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'db'       => $db,
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

@@ -15,38 +15,38 @@ $this->title = 'Markets';
     </div>
     <div class="body-content">
 
-<?= GridView::widget([
-    'dataProvider' => $dataProvider,
-    'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
-    'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-        [
-            'attribute' => 'title',
-            'format' => 'raw',
-            'value' => function ($market) {
-                return Html::a(
-                    $market->title,
-                    ['site/coupons', 'market' => $market->id],
-                    ['cursor' => 'pointer']
-                );
-            },                        
-            'label' => 'Market',
-        ],
-        [
-            'attribute' => 'url',
-            'format' => 'raw',
-            'value' => function ($market) {
-                return Html::a(
-                    $market->url,
-                    $market->url, 
-                    ['cursor' => 'pointer', 'target' => '_blank',]
-                );
-            },                        
-            'label' => 'Web-adress',
-            'enableSorting' => false,
-        ],
-    ],
-]) ?>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'attribute' => 'title',
+                    'format' => 'raw',
+                    'value' => function ($market) {
+                        return Html::a(
+                            $market->title,
+                            ['site/coupons', 'market' => $market->id],
+                            ['cursor' => 'pointer']
+                        );
+                    },                        
+                    'label' => 'Market',
+                ],
+                [
+                    'attribute' => 'url',
+                    'format' => 'raw',
+                    'value' => function ($market) {
+                        return Html::a(
+                            $market->url,
+                            $market->url, 
+                            ['cursor' => 'pointer', 'target' => '_blank',]
+                        );
+                    },                        
+                    'label' => 'Web-adress',
+                    'enableSorting' => false,
+                ],
+            ],
+        ]) ?>
 
     </div>
 </div>

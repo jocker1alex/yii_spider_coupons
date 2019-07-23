@@ -29,11 +29,9 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
+        'options'    => ['class' => 'navbar-inverse navbar-fixed-top'],
+        'brandUrl'   => Yii::$app->homeUrl,
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -71,7 +69,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; jocke1alex <?= date('Y') ?></p>
+        <p class="pull-left">&copy; jocker1alex <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

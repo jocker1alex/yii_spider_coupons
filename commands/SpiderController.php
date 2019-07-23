@@ -12,32 +12,33 @@ use app\models\Coupon;
  */
 class SpiderController extends Controller
 {
-    const PROTO = 'https://';
-    const HOST = 'www.coupons.com';
-    const URI = '/store-loyalty-card-coupons/';
+    const HOST = 'https://www.coupons.com';
+    const URI  = '/store-loyalty-card-coupons/';
+    const EXIST = 'exist = 1';
+    const NOT_EXIST = 'exist = 0';
+    const SCANED = 'scan = 1';
+    const NOT_SCANED = 'scan = 0';
+    const MARKET_SELECTOR = 'a.store-pod';
+    const COUPON_SELECTOR = 'div.mod-gallery script';
 
     /**
      * This command - find markets from website and save to database
      */
-    public function actionGet_markets()
+    public function actionGetMarkets()
     {   
         // mark markets as non-existing
-        Market::updateAll(['exist' => 0], 'exist = 1');
+        Market::updateAll(['exist' => 0], self::EXIST);
        
-        $url = self::PROTO . self::HOST . self::URI;
- 
+        $url = self::HOST . self::URI;
         $document = new Document($url, true);
-
-        // find nodes containing markets by selector
-        $elements = $document->find('a.store-pod');
- 
+        $elements = $document->find(self::MARKET_SELECTOR);
         foreach ($elements as $element)
         {
             $this->addMarket($element);
         }
 
         // remove from database non-existing markets on the site
-        Market::deleteAll('exist = 0');
+        Market::deleteAll(self::NOT_EXIST);
     }
 
     /**
@@ -53,12 +54,9 @@ class SpiderController extends Controller
         if($market === null)
         {
             $market = new Market();
-            
+            $market->url   = self::HOST . $element->getAttribute('href');
+            $market->scan  = 0;
             $market->title = $element->getAttribute('title');
-
-            $market->url = self::PROTO . self::HOST . $element->getAttribute('href');
-
-            $market->scan = 0;
         }
 
         // mark market as existing
@@ -70,9 +68,9 @@ class SpiderController extends Controller
     /**
      * This command - find coupons from website and save to database.
      */
-    public function actionGet_coupons()
+    public function actionGetCoupons()
     {   
-        $this->actionGet_markets();
+        $this->actionGetMarkets();
 
         // get all non-scanning markets
         $markets = Market::findAll(['scan' => 0]);
@@ -86,19 +84,17 @@ class SpiderController extends Controller
             $document = new Document($market->url, true);
 
             // find javascript code containing coupons
-            $textJsData = $this->findSelectorText($document, 'div.mod-gallery script');
+            $textJsData = $this->findSelectorText($document, self::COUPON_SELECTOR);
 
             if(!is_null($textJsData))
             {
-                // create object from json data
                 $elements = $this->getJsonData($textJsData);
-
                 foreach($elements as $element) 
                 {
                     $this->addCoupon($market, $element);
                 }
             }
-              
+
             // mark market as scaned
             $market->scan = 1;
 
@@ -106,10 +102,10 @@ class SpiderController extends Controller
         }
 
         // remove from database non-existing coupons on the site
-        Coupon::deleteAll('exist = 0');
+        Coupon::deleteAll(self::NOT_EXIST);
 
         // end: mark all markets as not scaned
-        Market::updateAll(['scan' => 0], 'scan = 1');
+        Market::updateAll(['scan' => 0]);
     }
 
     /**
@@ -117,7 +113,7 @@ class SpiderController extends Controller
      * @param object $element element of HTML.
      * @param string $selector HTML selector.
      */
-     protected function findSelectorText($element, $selector)
+    protected function findSelectorText($element, $selector)
     {
         return empty($element->find($selector)) ? NULL : $element->find($selector)[0]->text();
     }
@@ -128,58 +124,55 @@ class SpiderController extends Controller
      */
     protected function getJsonData($textJsData)
     {
-        $start = mb_strpos($textJsData, '[');
-        
-        $length = mb_strrpos($textJsData, ']') - $start + 1;
-        
+        $start    = mb_strpos($textJsData, '[');
+        $length   = mb_strrpos($textJsData, ']') - $start + 1;
         $jsonData = mb_substr($textJsData, $start, $length);
-        
-        return json_decode($jsonData);
+        return json_decode($jsonData, true);
+    }
+
+    protected function getJsonElement($element, $key)
+    {
+        return array_key_exists($key, $element) ? $element[$key] : '';
     }
 
     /**
      * This command - add coupon to database from website.
-     * @param object $element coupon from JSON data.
+     * @param array $element coupon from JSON data.
      * @param object $market market from database.
      */
     protected function addCoupon($market, $element)
-    {
-        //check the presence of coupon in the database
-         $coupon = Coupon::findOne([
-            'id_market' => $market->id,
-            'summary' => $element->offerSummary,
-            'brand' => $element->brandName,
-            'description' => $element->offerDescription,
-            'expiry' => $element->offerExpiryDateFormatted,
-            //'picture' => $element->mediumImage,
-            'picture' => $element->largeImage,
+    {   
+        $brand       = $this->getJsonElement($element, 'brandName');
+        $expiry      = $this->getJsonElement($element, 'offerExpiryDateFormatted');
+        $summary     = $this->getJsonElement($element, 'offerSummary');
+        $picture     = $this->getJsonElement($element, 'largeImage');
+        $description = $this->getJsonElement($element, 'offerDescription');
+
+        // check the presence of coupon in the database
+        $coupon = Coupon::findOne([
+            'brand'       => $brand,
+            'expiry'      => $expiry,
+            'summary'     => $summary,
+            'picture'     => $picture,
+            'id_market'   => $market->id,
+            'description' => $description,
         ]);
 
         // add coupon to database
         if($coupon === null)
         {
             $coupon = new Coupon();
-
-            $coupon->id_market = $market->id;
-            $coupon->summary = $element->offerSummary;
-            $coupon->brand = $element->brandName;
-            $coupon->description = $element->offerDescription;
-            $coupon->expiry = $element->offerExpiryDateFormatted;
-            //$coupon->picture = $element->mediumImage;
-            $coupon->picture = $element->largeImage;
+            $coupon->brand       = $brand;
+            $coupon->expiry      = $expiry;
+            $coupon->summary     = $summary;
+            $coupon->picture     = $picture;
+            $coupon->id_market   = $market->id;
+            $coupon->description = $description;
         }
        
         // mark coupon as existing
         $coupon->exist = 1;
         
         $coupon->save();
-    }
-
-    /**
-     * This command - test code for debug.
-     * cmd> yii spider/test
-     */
-    public function actionTest()
-    {
     }
 }
