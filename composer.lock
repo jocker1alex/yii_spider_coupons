@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b32cd41c07ff9c8f03eec1df022c51b",
+    "content-hash": "0b5d5b9358f19a28a2cf6523baf0a5fa",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -264,16 +264,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.9",
+            "version": "2.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "128cc721d771ec2c46ce59698f4ca42b73f71b25"
+                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/128cc721d771ec2c46ce59698f4ca42b73f71b25",
-                "reference": "128cc721d771ec2c46ce59698f4ca42b73f71b25",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
+                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
                 "shasum": ""
             },
             "require": {
@@ -283,7 +283,8 @@
             "require-dev": {
                 "dominicsayers/isemail": "dev-master",
                 "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
-                "satooshi/php-coveralls": "^1.0.1"
+                "satooshi/php-coveralls": "^1.0.1",
+                "symfony/phpunit-bridge": "^4.4@dev"
             },
             "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
@@ -317,7 +318,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2019-06-23T10:14:27+00:00"
+            "time": "2019-07-19T20:52:08+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -414,54 +415,6 @@
                 "xml"
             ],
             "time": "2019-01-17T11:01:36+00:00"
-        },
-        {
-            "name": "jonnyw/php-phantomjs",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jonnnnyw/php-phantomjs.git",
-                "reference": "a88fe560cf79481ff3c997deb223c05f4f37a9b5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jonnnnyw/php-phantomjs/zipball/a88fe560cf79481ff3c997deb223c05f4f37a9b5",
-                "reference": "a88fe560cf79481ff3c997deb223c05f4f37a9b5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "bin": [
-                "bin/phantomjs"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JonnyW\\PhantomJs\\": "src"
-                },
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonny Wenmoth",
-                    "email": "contact@jonnyw.me",
-                    "homepage": "http://jonnyw.me/"
-                }
-            ],
-            "description": "A PHP wrapper for loading pages through PhantomJS",
-            "keywords": [
-                "Headless Browser",
-                "phantomjs",
-                "testing"
-            ],
-            "time": "2013-11-14T09:37:27+00:00"
         },
         {
             "name": "newerton/yii2-fancybox",
@@ -1559,6 +1512,67 @@
                 "object graph"
             ],
             "time": "2019-04-07T13:18:21+00:00"
+        },
+        {
+            "name": "opis/closure",
+            "version": "3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/opis/closure.git",
+                "reference": "92927e26d7fc3f271efe1f55bdbb073fbb2f0722"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/opis/closure/zipball/92927e26d7fc3f271efe1f55bdbb073fbb2f0722",
+                "reference": "92927e26d7fc3f271efe1f55bdbb073fbb2f0722",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0"
+            },
+            "require-dev": {
+                "jeremeamia/superclosure": "^2.0",
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Opis\\Closure\\": "src/"
+                },
+                "files": [
+                    "functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marius Sarca",
+                    "email": "marius.sarca@gmail.com"
+                },
+                {
+                    "name": "Sorin Sarca",
+                    "email": "sarca_sorin@hotmail.com"
+                }
+            ],
+            "description": "A library that can be used to serialize closures (anonymous functions) and arbitrary objects.",
+            "homepage": "https://opis.io/closure",
+            "keywords": [
+                "anonymous functions",
+                "closure",
+                "function",
+                "serializable",
+                "serialization",
+                "serialize"
+            ],
+            "time": "2019-07-09T21:58:11+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3008,16 +3022,16 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v4.2.4",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "61d85c5af2fc058014c7c89504c3944e73a086f0"
+                "reference": "a29dd02a1f3f81b9a15c7730cc3226718ddb55ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/61d85c5af2fc058014c7c89504c3944e73a086f0",
-                "reference": "61d85c5af2fc058014c7c89504c3944e73a086f0",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/a29dd02a1f3f81b9a15c7730cc3226718ddb55ca",
+                "reference": "a29dd02a1f3f81b9a15c7730cc3226718ddb55ca",
                 "shasum": ""
             },
             "require": {
@@ -3026,6 +3040,8 @@
             },
             "require-dev": {
                 "symfony/css-selector": "~3.4|~4.0",
+                "symfony/http-client": "^4.3",
+                "symfony/mime": "^4.3",
                 "symfony/process": "~3.4|~4.0"
             },
             "suggest": {
@@ -3034,7 +3050,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -3061,7 +3077,7 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-23T15:17:42+00:00"
+            "time": "2019-06-11T15:41:59+00:00"
         },
         {
             "name": "symfony/console",
@@ -3755,20 +3771,21 @@
         },
         {
             "name": "yiisoft/yii2-debug",
-            "version": "2.1.5",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "a6bbf55093e154e2eeb2c778af8717989495270e"
+                "reference": "726999bbcc04d8aeb6db02fd6719290793793cbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/a6bbf55093e154e2eeb2c778af8717989495270e",
-                "reference": "a6bbf55093e154e2eeb2c778af8717989495270e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/726999bbcc04d8aeb6db02fd6719290793793cbf",
+                "reference": "726999bbcc04d8aeb6db02fd6719290793793cbf",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
+                "opis/closure": "^3.3",
                 "php": ">=5.4",
                 "yiisoft/yii2": "~2.0.13"
             },
@@ -3808,7 +3825,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2019-06-04T14:21:49+00:00"
+            "time": "2019-07-23T20:20:47+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
